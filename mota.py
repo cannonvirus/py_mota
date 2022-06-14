@@ -48,12 +48,13 @@ def calc_mota(df_answer : pd.DataFrame, df_target : pd.DataFrame):
         )
         
     mh = mm.metrics.create()
-    summary = mh.compute(acc, metrics=['num_frames', 'mota', 'motp'], name='acc')
-    
+    # summary = mh.compute(acc, metrics=['num_frames', 'mota', 'motp'], name='acc')
+    summary = mh.compute(acc, metrics=mm.metrics.motchallenge_metrics, name='acc')
+
     strsummary = mm.io.render_summary(
         summary,
-        formatters={'mota' : '{:.2%}'.format},
-        namemap={'mota': 'MOTA', 'motp' : 'MOTP'}
+        formatters=mh.formatters,
+        namemap=mm.io.motchallenge_metric_names
     )
     print(strsummary)
         
