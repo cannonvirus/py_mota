@@ -17,7 +17,7 @@ def answer_dataloader(path : str) -> pd.DataFrame:
     df = df.astype({"frame_num" : "int"})    
     df["frame_num"] = df["frame_num"].apply(lambda x : x // 8)
     
-    print(df.head())
+    # print(df.head())
     
     return df
 
@@ -27,7 +27,7 @@ def target_dataloader(path : str) -> pd.DataFrame:
     df = df[["frame_num", "obj_id", "cx", "cy", "width", "height", "radian"]]
     df = df.astype({"cx" : "float", "cy" : "float"}) 
     
-    print(df.head())
+    # print(df.head())
     return df
 
 def calc_mota(df_answer : pd.DataFrame, df_target : pd.DataFrame):
@@ -61,8 +61,10 @@ def calc_mota(df_answer : pd.DataFrame, df_target : pd.DataFrame):
 
 if __name__ == "__main__":
     
-    df_answer = answer_dataloader(path = "/works/py_mota/room1_000_confirm.txt")
-    df_target = target_dataloader(path = "/works/py_mota/room1_000_confirm_tracked.txt")
+    dataname = "room2_act2"
+    df_answer = answer_dataloader(path = f"/works/py_mota/{dataname}_confirm.txt")
+    df_target = target_dataloader(path = f"/works/cpp_bytetrack_standalone/output/{dataname}_confirm_tracked.txt")
+    # df_target = target_dataloader(path = f"/works/py_mota/{dataname}_confirm_tracked.txt")
     
     if df_answer["frame_num"].max() == df_target["frame_num"].max():
         calc_mota(df_answer, df_target)
